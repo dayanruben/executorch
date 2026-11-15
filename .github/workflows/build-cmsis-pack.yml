@@ -136,6 +136,7 @@ jobs:
           path: pack-output
 
       - name: Upload to GitHub Release
+        if: github.repository_owner != 'dayanruben'
         uses: softprops/action-gh-release@v2
         with:
           files: pack-output/*.pack

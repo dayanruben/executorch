@@ -1197,6 +1197,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Upload to S3
+        if: github.repository_owner != 'dayanruben'
         shell: bash
         env:
           S3_BUCKET: gha-artifacts

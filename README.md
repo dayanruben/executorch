@@ -259,3 +259,8 @@ ExecuTorch is BSD licensed. See [LICENSE](LICENSE).
     <a href="https://docs.pytorch.org/executorch">Documentation</a>
   </p>
 </div>
+
+## Fork validation policy
+
+This fork is used for compatibility validation. Publication and deployment steps
+are guarded against running under `dayanruben`; build and test steps remain available.

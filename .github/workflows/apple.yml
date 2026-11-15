@@ -292,6 +292,7 @@ jobs:
         run: |
           echo "UPLOAD_ON_MAIN=1" >> "${GITHUB_ENV}"
       - name: Upload the artifact to ossci-ios S3 bucket
+        if: github.repository_owner != 'dayanruben'
         shell: bash
         run: |
           set -eux
