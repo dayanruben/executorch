@@ -125,8 +125,6 @@ PARAMETERS = (
     "flow_normalization",
     "flow_scale",
     "flow_zero_point",
-    "input_scale",
-    "input_zero_point",
     "output_scale",
     "output_zero_point",
 )
@@ -510,7 +508,7 @@ class PackRifeWarpsAndConcatPass(ArmPass):
         if any({k: p[k] for k in PARAMETERS} != parameters for p in payloads) or [
             p["flow_channel_offset"] for p in payloads
         ] != [0, 2, 0, 2]:
-            raise ValueError("Warp packing requires identical sampling qparams.")
+            raise ValueError("Warp packing requires common flow and output qparams.")
         flow = customs[0].args[0][1]
         if any(n.args[0][1] is not flow for n in customs) or (
             not _is_op(flow, TOSA.TRANSPOSE.default, 2)
@@ -661,4 +659,9 @@ class PackRifeWarpsAndConcatPass(ArmPass):
         graph.eliminate_dead_code()
         graph.lint()
         graph_module.recompile()
+        logger.debug(
+            "Fused packed RIFE warps into shader %s: normalization_xy=%s retained",
+            OPERATOR_NAME,
+            payloads[0]["flow_normalization"],
+        )
         return PassResult(graph_module, True)
